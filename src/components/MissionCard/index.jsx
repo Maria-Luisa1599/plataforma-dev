@@ -1,6 +1,6 @@
 import './style.css'
 
-function MissionCard ({title, description, technology, difficulty, xp, completed, onToggle}){
+function MissionCard ({title, description, technology, difficulty, xp, completed, onToggle, onDelete, onEdit}){
     return(
         <article className={`mission-card ${completed ? 'mission-card--completed' : ''}`}>
             <div className='mission-card__header'>
@@ -15,6 +15,12 @@ function MissionCard ({title, description, technology, difficulty, xp, completed
                     </strong>
                     <button type='button' className='mission-card__button' onClick={onToggle}>
                         {completed ? 'Reabrir missão' : 'Concluir missão'}
+                    </button>
+                    <button type='button' className='mission-card__button mission-card__button--delete' onClick={onDelete}>
+                        Excluir
+                    </button>
+                    <button type='button' className='mission-card__button' onClick={onEdit}>
+                        Editar
                     </button>
                 </div>
         </article>

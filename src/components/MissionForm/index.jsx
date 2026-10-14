@@ -1,12 +1,22 @@
 ﻿import './style.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-function MissionForm({ onAddMission }) {
+function MissionForm({ onAddMission, editMission, onUpdateMission }) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [technology, setTechnology] = useState('React')
   const [difficulty, setDifficulty] = useState('Fácil')
   const [xp, setXp] = useState(50)
+
+  useEffect(() => {
+    if(editMission){
+      setTitle(editMission.title)
+      setDescription(editMission.description)
+      setTechnology(editMission.technology)
+      setDifficulty(editMission.difficulty)
+      setXp(editMission.xp)
+    }
+  }, [editMission])
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -15,15 +25,28 @@ function MissionForm({ onAddMission }) {
         alert('Preencha todos os campos!')
         return   
     }
-        onAddMission?.({
-            id: Date.now(),
+
+        if(editMission){
+          onUpdateMission?.({
+            id: editMission.id,
             title: title.trim(),
             description: description.trim(),
             technology,
             difficulty,
             xp: Number(xp),
-            completed: false,
-        })
+            completed: editMission.completed,
+          })
+        }else{
+            onAddMission?.({
+              id: Date.now(),
+              title: title.trim(),
+              description: description.trim(),
+              technology,
+              difficulty,
+              xp: Number(xp),
+              completed: false,
+          })
+        }
         
         setTitle('')
         setDescription('')
@@ -78,7 +101,7 @@ function MissionForm({ onAddMission }) {
           <label htmlFor='difficulty'>Dificuldade:</label>
           <select id='difficulty' value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
             <option value='Fácil'>Fácil</option>
-            <option value='Médio'>Médio</option>
+            <option value='Média'>Média</option>
             <option value='Difícil'>Difícil</option>
           </select>
         </div>
@@ -93,7 +116,9 @@ function MissionForm({ onAddMission }) {
             required
           />
         </div>
-        <button className='mission-form__button' type='submit'>Adicionar missão</button>
+        <button className='mission-form__button' type='submit'>
+          {editMission ? 'Salvar alterações' : 'Adicionar missão'}
+        </button>
       </form>
     </section>
   )

@@ -50,6 +50,7 @@ const initialMissions = [
 function App (){
   
   const [missions, setMissions] = useState(initialMissions)
+  const [editMission, setEditMission] = useState(null)
 
   function toggleMission(missionId){
     const updatedMissions = missions.map((mission) => {
@@ -65,6 +66,17 @@ function App (){
 
   function addMission(mission){
     setMissions((currentMissions) => [mission, ...currentMissions])
+  }
+
+  function deleteMission(missionId){
+    const updatedMissions = missions.filter((mission) => mission.id !== missionId)
+    setMissions(updatedMissions)
+  }
+
+  function updateMission(updatedMission){
+    const updatedMissions = missions.map((mission) => mission.id === updatedMission.id ? updatedMission : mission)
+    setMissions(updatedMissions)
+    setEditMission(null)
   }
 
   const completedMissions = missions.filter((mission) => mission.completed)
@@ -122,7 +134,11 @@ function App (){
             ))}
           </div>
         </section>
-        <MissionForm onAddMission={addMission}/>
+        <MissionForm 
+          onAddMission={addMission}
+          editMission={editMission}
+          onUpdateMission={updateMission}
+        />
         <section className='missions-section'>
           <div className='section-heading'>
             <div>
@@ -144,6 +160,8 @@ function App (){
                 xp={mission.xp}
                 completed={mission.completed}
                 onToggle={() => toggleMission(mission.id)}
+                onDelete={() => deleteMission(mission.id)}
+                onEdit={() => setEditMission(mission)}
               />
             ))}
           </div>
