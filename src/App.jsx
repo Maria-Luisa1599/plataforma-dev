@@ -7,6 +7,7 @@ import ProfileCard from './components/ProfileCard'
 import SummaryCard from './components/SummaryCard'
 import MissionCard from './components/MissionCard'
 import MissionForm from './components/MissionForm'
+import MissionSearch from './components/MissionSearch'
 
 const initialMissions = [
   {
@@ -48,10 +49,11 @@ const initialMissions = [
 ];
 
 function App (){
-  
+
   const [missions, setMissions] = useState(initialMissions)
   const [editMission, setEditMission] = useState(null)
-
+  const [searchTerm, setSearchTerm] = useState('')
+  
   function toggleMission(missionId){
     const updatedMissions = missions.map((mission) => {
       if(mission.id === missionId){
@@ -82,6 +84,8 @@ function App (){
   const completedMissions = missions.filter((mission) => mission.completed)
   const completedMissionsCount = completedMissions.length
   const earnedXP = completedMissions.reduce((total, mission) => total + mission.xp, 0)
+  
+  const filteredMission = missions.filter((mission) => mission.title.toLowerCase().includes(searchTerm.toLowerCase()))
   
   const summaryData = [
     {
@@ -140,6 +144,10 @@ function App (){
           onUpdateMission={updateMission}
         />
         <section className='missions-section'>
+          <MissionSearch
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+          />
           <div className='section-heading'>
             <div>
               <p className='section-heading__tag'>
@@ -150,7 +158,7 @@ function App (){
             <span>{missions.length} Missões</span>
           </div>
           <div className='missions-grid'>
-            {missions.map((mission) => (
+            {filteredMission.map((mission) => (
               <MissionCard
                 key={mission.id}
                 title={mission.title}
