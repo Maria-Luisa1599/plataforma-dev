@@ -12,6 +12,17 @@ function MissionSearch({ searchTerm, onSearchChange }) {
         onChange={(e) => onSearchChange(e.target.value)}
       >
       </input>
+      {
+        searchTerm && (
+          <button
+            type='button'
+            className='mission-search__clear'
+            onClick={() => onSearchChange('')}
+            >
+              Limpar busca
+            </button>
+        )
+      }
     </section>
   )
 }
