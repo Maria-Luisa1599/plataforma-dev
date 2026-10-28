@@ -56,6 +56,7 @@ function App (){
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('Todas')
   const [techFilter, setTechFilter] = useState('Todas')
+  const [difficultyFilter, setDifficultyFilter] = useState('Todas')
 
   function toggleMission(missionId){
     const updatedMissions = missions.map((mission) => {
@@ -92,7 +93,8 @@ function App (){
     const matchSearch = mission.title.toLowerCase().includes(searchTerm.toLowerCase())
     const matchStatus = statusFilter === 'Todas' || (statusFilter === 'Concluidas' && mission.completed) || (statusFilter === 'Pendentes' && !mission.completed)
     const matchTech = techFilter === 'Todas' || (techFilter === mission.technology)
-    return matchSearch && matchStatus && matchTech
+    const matchDifficulty = difficultyFilter === 'Todas' || (difficultyFilter === mission.difficulty)
+    return matchSearch && matchStatus && matchTech && matchDifficulty
   })
   
   const summaryData = [
@@ -161,6 +163,8 @@ function App (){
             onStatusChange={setStatusFilter}
             techFilter={techFilter}
             onTechChange={setTechFilter}
+            difficultyFilter={difficultyFilter}
+            onDifficultyChange={setDifficultyFilter}
           />
           <div className='section-heading'>
             <div>

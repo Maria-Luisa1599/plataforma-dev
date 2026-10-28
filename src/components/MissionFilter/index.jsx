@@ -1,6 +1,6 @@
 ﻿import './style.css'
 
-function MissionFilter({statusFilter, onStatusChange, techFilter, onTechChange}) {
+function MissionFilter({statusFilter, onStatusChange, techFilter, onTechChange, difficultyFilter, onDifficultyChange}) {
   return (
     <section className='mission-filters'>
       <div className='mission-filters__group'>
@@ -29,6 +29,18 @@ function MissionFilter({statusFilter, onStatusChange, techFilter, onTechChange})
                     <option key={option} value={option}>{option}</option>
                 ))
             }
+          </select>
+      </div>
+      <div className='mission-filters__group'>
+        <label htmlFor='difficulty-filter'>Dificuldade:</label>
+          <select
+            id='difficulty-filter'
+            value={difficultyFilter}
+            onChange={(e) => onDifficultyChange(e.target.value)}>
+            <option value='Todas'>Todas</option>
+            <option value='Fácil'>Fácil</option>
+            <option value='Média'>Média</option>
+            <option value='Difícil'>Difícil</option>
           </select>
       </div>
     </section>
