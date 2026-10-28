@@ -171,6 +171,7 @@ function App (){
             </div>
             <span>{missions.length} Missões</span>
           </div>
+          <p className='missions-results'>{filteredMission.length}{' '}{filteredMission.length === 1 ? 'Missão encontrada' : 'Missões encontradas'}</p>
           <div className='missions-grid'>
             {filteredMission.map((mission) => (
               <MissionCard
