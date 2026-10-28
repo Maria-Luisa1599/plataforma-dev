@@ -8,6 +8,7 @@ import SummaryCard from './components/SummaryCard'
 import MissionCard from './components/MissionCard'
 import MissionForm from './components/MissionForm'
 import MissionSearch from './components/MissionSearch'
+import MissionFilter from './components/MissionFilter'
 
 const initialMissions = [
   {
@@ -53,7 +54,9 @@ function App (){
   const [missions, setMissions] = useState(initialMissions)
   const [editMission, setEditMission] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
-  
+  const [statusFilter, setStatusFilter] = useState('Todas')
+  const [techFilter, setTechFilter] = useState('Todas')
+
   function toggleMission(missionId){
     const updatedMissions = missions.map((mission) => {
       if(mission.id === missionId){
@@ -85,7 +88,12 @@ function App (){
   const completedMissionsCount = completedMissions.length
   const earnedXP = completedMissions.reduce((total, mission) => total + mission.xp, 0)
   
-  const filteredMission = missions.filter((mission) => mission.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredMission = missions.filter((mission) => {
+    const matchSearch = mission.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchStatus = statusFilter === 'Todas' || (statusFilter === 'Concluidas' && mission.completed) || (statusFilter === 'Pendentes' && !mission.completed)
+    const matchTech = techFilter === 'Todas' || (techFilter === mission.technology)
+    return matchSearch && matchStatus && matchTech
+  })
   
   const summaryData = [
     {
@@ -147,6 +155,12 @@ function App (){
           <MissionSearch
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
+          />
+          <MissionFilter
+            statusFilter={statusFilter}
+            onStatusChange={setStatusFilter}
+            techFilter={techFilter}
+            onTechChange={setTechFilter}
           />
           <div className='section-heading'>
             <div>
