@@ -57,7 +57,8 @@ function App (){
   const [statusFilter, setStatusFilter] = useState('Todas')
   const [techFilter, setTechFilter] = useState('Todas')
   const [difficultyFilter, setDifficultyFilter] = useState('Todas')
-
+  const [sortedMissionsXp, setSortedMissionsXp] = useState('Nenhum')
+  
   function toggleMission(missionId){
     const updatedMissions = missions.map((mission) => {
       if(mission.id === missionId){
@@ -97,6 +98,16 @@ function App (){
     return matchSearch && matchStatus && matchTech && matchDifficulty
   })
   
+  const sortedMissions = [...filteredMission].sort((a, b) => {
+    if(sortedMissionsXp == 'Maior Xp'){
+      return b.xp - a.xp
+    }
+    else if(sortedMissionsXp == 'Menor Xp'){
+      return a.xp - b.xp
+    }
+    return
+  })
+
   const summaryData = [
     {
       id: 1,
@@ -118,6 +129,7 @@ function App (){
     },
     {
       id: 4,
+  
       title: 'XP',
       value: earnedXP,
       description: 'Experiência Acumulada'
@@ -165,6 +177,8 @@ function App (){
             onTechChange={setTechFilter}
             difficultyFilter={difficultyFilter}
             onDifficultyChange={setDifficultyFilter}
+            sortedMissionsXp={sortedMissionsXp}
+            onSortedMissionsXpChange={setSortedMissionsXp}
           />
           <div className='section-heading'>
             <div>
@@ -177,7 +191,12 @@ function App (){
           </div>
           <p className='missions-results'>{filteredMission.length}{' '}{filteredMission.length === 1 ? 'Missão encontrada' : 'Missões encontradas'}</p>
           <div className='missions-grid'>
-            {filteredMission.map((mission) => (
+            {sortedMissions.length === 0 ? (
+              <div className='empty-state'>
+                <h3>Nenhuma missão encontrada</h3>
+                <p>Tente alterar sua busca ou seus filtros</p>
+              </div>
+            ) : (sortedMissions.map((mission) => (
               <MissionCard
                 key={mission.id}
                 title={mission.title}
@@ -190,7 +209,7 @@ function App (){
                 onDelete={() => deleteMission(mission.id)}
                 onEdit={() => setEditMission(mission)}
               />
-            ))}
+            )))}
           </div>
         </section>
       </div>
