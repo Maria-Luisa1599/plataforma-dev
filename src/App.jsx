@@ -9,7 +9,7 @@ import MissionCard from './components/MissionCard'
 import MissionForm from './components/MissionForm'
 import MissionSearch from './components/MissionSearch'
 import MissionFilter from './components/MissionFilter'
-
+import ProjectCard from './components/ProjectCard'
 
 const initialMissions = [
   {
@@ -50,9 +50,35 @@ const initialMissions = [
   },
 ];
 
+const initialProjects = [
+  {
+    id: 1,
+    title: "Plataforma Dev",
+    description: "Plataforma de evolução Dev",
+    technologies: ["React", "Vite", "JavaScript", "HTML", "CSS", "Supabase"],
+    status: "Em andamento",
+  },
+  {
+    id: 2,
+  title: "Quiz Programador",
+    description: "Descubra qual é o seu perfil de programador",
+    technologies: ["JavaScript", "HTML", "CSS"],
+    status: "Concluído",
+  },
+  {
+    id: 3,
+    title: "Portifólio",
+    description: "Plataforma de evolução Dev",
+    technologies: ["JavaScript", "HTML", "CSS"],
+    status: "Concluído",
+  },
+
+];
+
 function App (){
 
   const [missions, setMissions] = useState(initialMissions)
+  const [projects, setProjects] = useState(initialProjects)
   const [editMission, setEditMission] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('Todas')
@@ -221,6 +247,32 @@ function App (){
               />
             )))}
           </div>
+        </section>
+        <section className='projects-section'>
+            <div className='projects-section__header'>
+              <div>
+                <span className='section-eyebrown'>
+                  Portifólio
+                </span>
+                <h2>
+                  Central de projetos
+                </h2>
+                <p>
+                  Projetos construídos durante sua jornada como Desenvolvedor.
+                </p>
+              </div>
+            </div>
+              <div className='projects-grid'>
+                {projects.map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    title={project.title}
+                    description={project.description}
+                    technologies={project.technologies}
+                    status={project.status}
+                  />
+                ))}
+            </div>
         </section>
       </div>
       <Footer/>
