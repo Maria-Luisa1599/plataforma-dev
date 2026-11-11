@@ -10,6 +10,7 @@ import MissionForm from './components/MissionForm'
 import MissionSearch from './components/MissionSearch'
 import MissionFilter from './components/MissionFilter'
 
+
 const initialMissions = [
   {
     id: 1,
@@ -58,7 +59,7 @@ function App (){
   const [techFilter, setTechFilter] = useState('Todas')
   const [difficultyFilter, setDifficultyFilter] = useState('Todas')
   const [sortedMissionsXp, setSortedMissionsXp] = useState('Nenhum')
-  
+
   function toggleMission(missionId){
     const updatedMissions = missions.map((mission) => {
       if(mission.id === missionId){
@@ -85,6 +86,14 @@ function App (){
     setMissions(updatedMissions)
     setEditMission(null)
   }
+
+  function clearfilters(){
+    setStatusFilter('Todas')
+    setTechFilter('Todas')
+    setDifficultyFilter('Todas')
+    setSortedMissionsXp('Nenhum')
+  }
+
 
   const completedMissions = missions.filter((mission) => mission.completed)
   const completedMissionsCount = completedMissions.length
@@ -179,6 +188,7 @@ function App (){
             onDifficultyChange={setDifficultyFilter}
             sortedMissionsXp={sortedMissionsXp}
             onSortedMissionsXpChange={setSortedMissionsXp}
+            clearfilters={clearfilters}
           />
           <div className='section-heading'>
             <div>

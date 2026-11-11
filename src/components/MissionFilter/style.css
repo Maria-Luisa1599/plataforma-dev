@@ -1,5 +1,6 @@
 .mission-filters {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 16px;
   margin-bottom: 24px;
@@ -8,6 +9,13 @@
 .mission-filters__group {
   display: flex;
   flex-direction: column;
+  gap: 7px;
+  min-width: 180px;
+}
+
+.mission-filters__container {
+  display: flex;
+  flex-direction: row;
   gap: 7px;
   min-width: 180px;
 }
@@ -27,5 +35,5 @@
 }
 
 .mission-filters__group select option {
-  color:#101426;
+  color: #101426;
 }
