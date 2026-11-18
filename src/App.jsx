@@ -118,6 +118,11 @@ function App (){
     setProjects((currentProjects) => [project, ...currentProjects])
   }
 
+  function deleteProject(projectId){
+    const newProjects = projects.filter((project) => project.id !== projectId)
+    setProjects(newProjects)
+  }
+
   function clearfilters(){
     setStatusFilter('Todas')
     setTechFilter('Todas')
@@ -279,6 +284,7 @@ function App (){
                     description={project.description}
                     technologies={project.technologies}
                     status={project.status}
+                    onDelete={() => deleteProject(project.id)}
                   />
                 ))}
               </div>
