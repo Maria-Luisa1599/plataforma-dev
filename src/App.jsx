@@ -10,6 +10,7 @@ import MissionForm from './components/MissionForm'
 import MissionSearch from './components/MissionSearch'
 import MissionFilter from './components/MissionFilter'
 import ProjectCard from './components/ProjectCard'
+import ProjectForm from './components/ProjectForm'
 
 const initialMissions = [
   {
@@ -60,7 +61,7 @@ const initialProjects = [
   },
   {
     id: 2,
-  title: "Quiz Programador",
+    title: "Quiz Programador",
     description: "Descubra qual é o seu perfil de programador",
     technologies: ["JavaScript", "HTML", "CSS"],
     status: "Concluído",
@@ -78,8 +79,8 @@ const initialProjects = [
 function App (){
 
   const [missions, setMissions] = useState(initialMissions)
-  const [projects, setProjects] = useState(initialProjects)
   const [editMission, setEditMission] = useState(null)
+  const [projects, setProjects] = useState(initialProjects)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('Todas')
   const [techFilter, setTechFilter] = useState('Todas')
@@ -101,16 +102,20 @@ function App (){
   function addMission(mission){
     setMissions((currentMissions) => [mission, ...currentMissions])
   }
-
+  
   function deleteMission(missionId){
     const updatedMissions = missions.filter((mission) => mission.id !== missionId)
     setMissions(updatedMissions)
   }
-
+  
   function updateMission(updatedMission){
     const updatedMissions = missions.map((mission) => mission.id === updatedMission.id ? updatedMission : mission)
     setMissions(updatedMissions)
     setEditMission(null)
+  }
+
+  function addProject(project){
+    setProjects((currentProjects) => [project, ...currentProjects])
   }
 
   function clearfilters(){
@@ -261,7 +266,11 @@ function App (){
                   Projetos construídos durante sua jornada como Desenvolvedor.
                 </p>
               </div>
+              <ProjectForm
+                onAddProject={addProject}
+              />
             </div>
+              <p className='missions-results'>{projects.length}{' '}{projects.length === 1 ? 'Projeto' : 'Projetos'}</p>
               <div className='projects-grid'>
                 {projects.map((project) => (
                   <ProjectCard
@@ -272,7 +281,7 @@ function App (){
                     status={project.status}
                   />
                 ))}
-            </div>
+              </div>
         </section>
       </div>
       <Footer/>
