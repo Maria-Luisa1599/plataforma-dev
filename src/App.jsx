@@ -77,7 +77,7 @@ const initialProjects = [
     technologies: ["JavaScript", "HTML", "CSS"],
     status: "Concluído",
     githubUrl: "https://github.com/Maria-Luisa1599/Portif-lio",
-    deployUrl: "",
+    deployUrl: "https://plataforma-dev-chi.vercel.app/",
   },
 
 ];
