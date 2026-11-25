@@ -1,6 +1,6 @@
 import './style.css'
 
-function ProjectCard ({title, description, technologies, status, onDelete}){
+function ProjectCard ({title, description, technologies, status, onDelete, onEdit}){
     return(
         <article className='project-card'>
                 <span className='project-card__status'>{status}</span>
@@ -12,6 +12,9 @@ function ProjectCard ({title, description, technologies, status, onDelete}){
                     ))}
                 </div>
                 <button className='project-card__delete' type='button' onClick={onDelete}>Excluir</button>
+                <button type='button' className='mission-card__button' onClick={onEdit}>
+                    Editar
+                </button>
         </article>
     )
 }

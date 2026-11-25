@@ -1,11 +1,21 @@
 ﻿import './style.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-function ProjectForm({ onAddProject, editProject }) {
+function ProjectForm({ onAddProject, editProject, onUpdateProject }) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [technologies, setTechnologies] = useState('')
   const [status, setStatus] = useState('Em andamento')
+
+  
+  useEffect(() => {
+    if(editProject){
+      setTitle(editProject.title)
+      setDescription(editProject.description)
+      setTechnologies(editProject.technologies.join(", "))
+      setStatus(editProject.status)
+    }
+  }, [editProject])
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -14,13 +24,25 @@ function ProjectForm({ onAddProject, editProject }) {
         alert('Preencha todos os campos!')
         return   
     }
-      onAddProject?.({
-        id: Date.now(),
-        title: title.trim(),
-        description: description.trim(),
-        technologies: technologies.split(",").map((techn) => techn.trim()),
-        status,
-      })
+    
+    if(editProject){
+        onUpdateProject?.({
+          id: editProject.id,
+          title: title.trim(),
+          description: description.trim(),
+          technologies: technologies.split(",").map((techn) => techn.trim()),
+          status,
+          completed: editProject.completed,
+        })
+      }else{
+        onAddProject?.({
+          id: Date.now(),
+          title: title.trim(),
+          description: description.trim(),
+          technologies: technologies.split(",").map((techn) => techn.trim()),
+          status,
+        })
+      }
         
         setTitle('')
         setDescription('')

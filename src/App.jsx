@@ -81,6 +81,7 @@ function App (){
   const [missions, setMissions] = useState(initialMissions)
   const [editMission, setEditMission] = useState(null)
   const [projects, setProjects] = useState(initialProjects)
+  const [editProject, setEditProject] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('Todas')
   const [techFilter, setTechFilter] = useState('Todas')
@@ -121,6 +122,12 @@ function App (){
   function deleteProject(projectId){
     const newProjects = projects.filter((project) => project.id !== projectId)
     setProjects(newProjects)
+  }
+  
+  function updateProject (updatedProject){
+    const updatedProjects = projects.map((project) => project.id === updatedProject.id ? updatedProject : project)
+    setProjects(updatedProjects)
+    setEditProject(null)
   }
 
   function clearfilters(){
@@ -273,6 +280,8 @@ function App (){
               </div>
               <ProjectForm
                 onAddProject={addProject}
+                editProject={editProject}
+                onUpdateProject={updateProject}
               />
             </div>
               <p className='missions-results'>{projects.length}{' '}{projects.length === 1 ? 'Projeto' : 'Projetos'}</p>
@@ -285,6 +294,7 @@ function App (){
                     technologies={project.technologies}
                     status={project.status}
                     onDelete={() => deleteProject(project.id)}
+                    onEdit={() => setEditProject(project)}
                   />
                 ))}
               </div>
