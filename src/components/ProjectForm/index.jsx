@@ -6,6 +6,8 @@ function ProjectForm({ onAddProject, editProject, onUpdateProject }) {
   const [description, setDescription] = useState('')
   const [technologies, setTechnologies] = useState('')
   const [status, setStatus] = useState('Em andamento')
+  const [githubUrl, setGithubUrl] = useState('')
+  const [deployUrl, setDeployUrl] = useState('')
 
   
   useEffect(() => {
@@ -14,11 +16,18 @@ function ProjectForm({ onAddProject, editProject, onUpdateProject }) {
       setDescription(editProject.description)
       setTechnologies(editProject.technologies.join(", "))
       setStatus(editProject.status)
+      setGithubUrl(editProject.githubUrl || '')
+      setDeployUrl(editProject.deployUrl || '')
     }
   }, [editProject])
 
   function handleSubmit(event) {
     event.preventDefault()
+
+    if((deployUrl && !deployUrl.startsWith('http://') && !deployUrl.startsWith('https://')) || (githubUrl && !githubUrl.startsWith('http://') && !githubUrl.startsWith('https://'))){
+      alert('Digite uma URL válida')
+      return   
+    }
 
     if (!title.trim() || !description.trim()) {
         alert('Preencha todos os campos!')
@@ -32,6 +41,8 @@ function ProjectForm({ onAddProject, editProject, onUpdateProject }) {
           description: description.trim(),
           technologies: technologies.split(",").map((techn) => techn.trim()),
           status,
+          githubUrl,
+          deployUrl,
           completed: editProject.completed,
         })
       }else{
@@ -41,6 +52,8 @@ function ProjectForm({ onAddProject, editProject, onUpdateProject }) {
           description: description.trim(),
           technologies: technologies.split(",").map((techn) => techn.trim()),
           status,
+          githubUrl,
+          deployUrl,
         })
       }
         
@@ -48,6 +61,8 @@ function ProjectForm({ onAddProject, editProject, onUpdateProject }) {
         setDescription('')
         setTechnologies('')
         setStatus("Em andamento")
+        setGithubUrl('')
+        setDeployUrl('')
   }
 
   return (
@@ -95,6 +110,26 @@ function ProjectForm({ onAddProject, editProject, onUpdateProject }) {
             <option value='Em andamento'>Em andamento</option>
             <option value='Concluído'>Concluído</option>
           </select>
+        </div>
+        <div className='project-form__group'>
+          <label htmlFor='githubUrl'>URL do GitHub:</label>
+          <input
+            type='text'
+            id='githubUrl'
+            value={githubUrl}
+            onChange={(e) => setGithubUrl(e.target.value)}
+            placeholder='https://github.com/usuario/projeto'
+          />
+        </div>
+        <div className='project-form__group'>
+          <label htmlFor='deployUrl'>URL do deploy:</label>
+          <input
+            type='text'
+            id='deployUrl'
+            value={deployUrl}
+            onChange={(e) => setDeployUrl(e.target.value)}
+            placeholder='https://seu-projeto.com'
+          />
         </div>
         <button className='project-form__button' type='submit'>
           {editProject ? 'Salvar alterações' : 'Adicionar Projeto'}

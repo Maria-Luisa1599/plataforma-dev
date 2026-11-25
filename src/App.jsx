@@ -58,6 +58,8 @@ const initialProjects = [
     description: "Plataforma de evolução Dev",
     technologies: ["React", "Vite", "JavaScript", "HTML", "CSS", "Supabase"],
     status: "Em andamento",
+    githubUrl: "",
+    deployUrl: "",
   },
   {
     id: 2,
@@ -65,6 +67,8 @@ const initialProjects = [
     description: "Descubra qual é o seu perfil de programador",
     technologies: ["JavaScript", "HTML", "CSS"],
     status: "Concluído",
+    githubUrl: "",
+    deployUrl: "",
   },
   {
     id: 3,
@@ -72,6 +76,8 @@ const initialProjects = [
     description: "Plataforma de evolução Dev",
     technologies: ["JavaScript", "HTML", "CSS"],
     status: "Concluído",
+    githubUrl: "https://github.com/Maria-Luisa1599/Portif-lio",
+    deployUrl: "",
   },
 
 ];
@@ -137,11 +143,19 @@ function App (){
     setSortedMissionsXp('Nenhum')
   }
 
-
   const completedMissions = missions.filter((mission) => mission.completed)
   const completedMissionsCount = completedMissions.length
   const earnedXP = completedMissions.reduce((total, mission) => total + mission.xp, 0)
-  
+  const projectsTechnologies = []
+
+  projects.forEach(project => {
+    project.technologies.forEach(techn => {
+      if(techn && !projectsTechnologies.includes(techn)){
+        projectsTechnologies.push(techn)
+      }
+    });
+  });
+
   const filteredMission = missions.filter((mission) => {
     const matchSearch = mission.title.toLowerCase().includes(searchTerm.toLowerCase())
     const matchStatus = statusFilter === 'Todas' || (statusFilter === 'Concluidas' && mission.completed) || (statusFilter === 'Pendentes' && !mission.completed)
@@ -170,13 +184,13 @@ function App (){
     {
       id: 2,
       title: 'Projetos',
-      value: 3,
+      value: projects.length,
       description: 'Projetos Cadastrados'
     },
     {
       id: 3,
       title: 'Tecnologias',
-      value: 4,
+      value: projectsTechnologies.length,
       description: 'Tecnologias Praticadas'
     },
     {
@@ -295,6 +309,8 @@ function App (){
                     status={project.status}
                     onDelete={() => deleteProject(project.id)}
                     onEdit={() => setEditProject(project)}
+                    githubUrl={project.githubUrl}
+                    deployUrl={project.deployUrl}
                   />
                 ))}
               </div>
